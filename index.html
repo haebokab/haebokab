@@ -3,50 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV 리모컨 맵핑 설정</title>
+    <title>기가지니 A 설정 우회 V3</title>
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .btn {
-            padding: 15px 30px;
-            font-size: 20px;
-            background-color: #6200ee;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        /* TV 리모컨으로 포커스가 갔을 때 시각적 효과 */
-        .btn:focus {
-            outline: 4px solid #03dac6;
-            transform: scale(1.05);
-        }
+        body { font-family: sans-serif; background-color: #121212; color: #fff; padding: 20px; text-align: center; }
+        h1 { color: #00e676; font-size: 20px; }
+        .btn { display: block; width: 85%; max-width: 350px; margin: 12px auto; padding: 15px; background: #222; color: #00e676; border: 2px solid #00e676; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
+    <h1>기가지니 A 설정 우회 V3</h1>
+    <p>버튼을 누르면 자바스크립트로 안드로이드 설정을 강제 호출합니다.</p>
 
-    <h1>안드로이드 TV 설정 이동</h1>
-    <p>아래 버튼을 눌러 리모컨 맵핑 권한(접근성/설정)을 활성화하세요.</p>
+    <!-- JS 이벤트 방식으로 변경 -->
+    <button class="btn" onclick="openAccessibility()">1. 접근성 설정 열기 (JS)</button>
+    <button class="btn" onclick="openSettings()">2. 전체 설정 열기 (JS)</button>
+    <button class="btn" onclick="openApps()">3. 앱 관리 열기 (JS)</button>
 
-    <a href="intent:#Intent;action=android.settings.SETTINGS;end" class="btn">
-        기본 설정 창 열기
-    </a>
-
-    <br><br>
-
-    <a href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" class="btn">
-        리모컨 맵핑(접근성) 설정 열기
-    </a>
-
+    <script>
+        function openAccessibility() {
+            // 안드로이드 OS 표준 접근성 액션 호출
+            window.location.href = "intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end";
+        }
+        function openSettings() {
+            // 기본 전체 설정 호출
+            window.location.href = "intent:#Intent;action=android.settings.SETTINGS;end";
+        }
+        function openApps() {
+            // 앱 설정 화면 호출
+            window.location.href = "intent:#Intent;action=android.settings.APPLICATION_SETTINGS;end";
+        }
+    </script>
 </body>
 </html>
