@@ -3,34 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기가지니 A 설정 우회 V3</title>
+    <title>기가지니 A 설정 우회 V4</title>
     <style>
-        body { font-family: sans-serif; background-color: #121212; color: #fff; padding: 20px; text-align: center; }
-        h1 { color: #00e676; font-size: 20px; }
-        .btn { display: block; width: 85%; max-width: 350px; margin: 12px auto; padding: 15px; background: #222; color: #00e676; border: 2px solid #00e676; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        body { font-family: sans-serif; background-color: #121212; color: #fff; padding: 15px; text-align: center; }
+        h1 { color: #00e676; font-size: 20px; margin-bottom: 5px; }
+        p { color: #aaa; font-size: 12px; margin-bottom: 20px; }
+        .btn { display: block; width: 85%; max-width: 350px; margin: 10px auto; padding: 14px; background: #222; color: #00e676; border: 2px solid #00e676; border-radius: 8px; font-size: 15px; font-weight: bold; text-decoration: none; }
+        .btn:active { background: #00e676; color: #000; }
+        .sub { font-size: 10px; color: #888; font-weight: normal; margin-top: 3px; }
     </style>
 </head>
 <body>
-    <h1>기가지니 A 설정 우회 V3</h1>
-    <p>버튼을 누르면 자바스크립트로 안드로이드 설정을 강제 호출합니다.</p>
+    <h1>기가지니 A 우회 게이트 V4</h1>
+    <p>브라우저 우회 프로토콜 및 마켓 딥링크 방식</p>
 
-    <!-- JS 이벤트 방식으로 변경 -->
-    <button class="btn" onclick="openAccessibility()">1. 접근성 설정 열기 (JS)</button>
-    <button class="btn" onclick="openSettings()">2. 전체 설정 열기 (JS)</button>
-    <button class="btn" onclick="openApps()">3. 앱 관리 열기 (JS)</button>
+    <!-- 1. Play 스토어 딥링크를 이용한 설정 패키지 호출 -->
+    <a class="btn" href="market://details?id=com.android.tv.settings">
+        1. TV 설정 (Market 프로토콜)
+        <div class="sub">market://details?id=com.android.tv.settings</div>
+    </a>
+
+    <!-- 2. Button Mapper 패키지 직접 호출 -->
+    <a class="btn" href="market://details?id=flar2.homebutton">
+        2. Button Mapper 앱 페이지 연동
+        <div class="sub">market://details?id=flar2.homebutton</div>
+    </a>
+
+    <!-- 3. 안드로이드 시스템 세팅 패키지 딥링크 -->
+    <a class="btn" href="android-app://com.android.tv.settings">
+        3. TV 설정 (android-app 프로토콜)
+        <div class="sub">android-app://com.android.tv.settings</div>
+    </a>
+
+    <!-- 4. JS 컴포넌트 강제 리다이렉트 테스트 -->
+    <button class="btn" onclick="openMarket()">
+        4. Play 스토어 메인 열기 (JS)
+        <div class="sub">Play 스토어 앱 강제 실행</div>
+    </button>
 
     <script>
-        function openAccessibility() {
-            // 안드로이드 OS 표준 접근성 액션 호출
-            window.location.href = "intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end";
-        }
-        function openSettings() {
-            // 기본 전체 설정 호출
-            window.location.href = "intent:#Intent;action=android.settings.SETTINGS;end";
-        }
-        function openApps() {
-            // 앱 설정 화면 호출
-            window.location.href = "intent:#Intent;action=android.settings.APPLICATION_SETTINGS;end";
+        function openMarket() {
+            // market 스킴을 자바스크립트로 강제 주입
+            window.location.href = "market://search?q=button+mapper";
         }
     </script>
 </body>
