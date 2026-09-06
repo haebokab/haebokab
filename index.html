@@ -1,38 +1,198 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기가지니 A 우회 게이트</title>
-    <style>
-        body { font-family: sans-serif; background-color: #121212; color: #ffffff; padding: 20px; text-align: center; }
-        h1 { color: #00e676; font-size: 20px; margin-bottom: 10px; }
-        p { font-size: 13px; color: #ccc; margin-bottom: 20px; }
-        .btn { display: block; width: 85%; max-width: 380px; margin: 12px auto; padding: 15px; background-color: #1f1f1f; color: #00e676; text-decoration: none; border: 2px solid #00e676; border-radius: 8px; font-size: 15px; font-weight: bold; }
-        .btn-down { border-color: #ff9800; color: #ff9800; }
-        .sub { font-size: 11px; color: #aaa; margin-top: 4px; font-weight: normal; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Android TV 설정 테스트</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #101114;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+    .description {
+      font-size: 21px;
+      color: #bbbbbb;
+      margin-bottom: 35px;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    button {
+      width: 100%;
+      min-height: 90px;
+      padding: 20px;
+      border: 0;
+      border-radius: 18px;
+      background: #1976d2;
+      color: white;
+      font-size: 27px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:focus {
+      outline: 5px solid white;
+      outline-offset: 5px;
+      background: #2196f3;
+    }
+    button:hover {
+      background: #2196f3;
+    }
+    .secondary {
+      background: #42464d;
+    }
+    .secondary:focus,
+    .secondary:hover {
+      background: #5a6068;
+    }
+    #status {
+      margin-top: 30px;
+      min-height: 30px;
+      font-size: 19px;
+      color: #aaaaaa;
+    }
+    .info {
+      margin-top: 35px;
+      padding: 20px;
+      border-radius: 15px;
+      background: #1b1d21;
+      color: #999999;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-    <h1>기가지니 A 설정 우회 게이트</h1>
-    <p>아래 순서대로 눌러 브라우저 외부 탈출을 시도하십시오.</p>
-
-    <!-- 방식 A: APK 다운로드 매니저 트리거 (가장 강력) -->
-    <a class="btn btn-down" href="https://github.com/autostart/autostart/releases/download/v1.0/dummy.apk" download>
-        [추천] 1. 버튼 매퍼/설정 우회용 APK 다운로드
-        <div class="sub">TV Bro 다운로드 매니저 실행 ➔ 완료 후 '열기' 클릭하여 설정 진입</div>
-    </a>
-
-    <!-- 방식 B: 스토어 직접 우회 -->
-    <a class="btn" href="market://details?id=flar2.homebutton">
-        2. Play 스토어 앱 직접 호출
-        <div class="sub">Button Mapper 스토어 페이지로 브라우저 탈출</div>
-    </a>
-
-    <!-- 방식 C: 시스템 딥링크 fallback -->
-    <a class="btn" href="android-app://com.android.tv.settings">
-        3. 안드로이드 TV 설정 앱 스킴 (android-app://)
-        <div class="sub">Intent 규격 대신 안드로이드 앱 스킴 직접 호출</div>
-    </a>
+  <main class="container">
+<h1>Android TV 설정</h1>
+<div class="description">
+  TV Bro에서 버튼을 눌러 설정 화면을 테스트합니다.
+</div>
+<div class="buttons">
+  <!-- 1. 접근성 설정 -->
+  <button
+    id="accessibilityButton"
+    onclick="openAccessibility()">
+    ♿ 접근성 설정 열기
+  </button>
+  <!-- 2. Android 전체 설정 -->
+  <button
+    class="secondary"
+    onclick="openSettings()">
+    ⚙️ Android 설정 열기
+  </button>
+  <!-- 3. 앱 설정 -->
+  <button
+    class="secondary"
+    onclick="openApps()">
+    📱 앱 설정 열기
+  </button>
+</div>
+<div id="status"></div>
+<div class="info">
+  첫 번째 버튼이 정상적으로 작동하면
+  Android TV의 접근성 설정 화면이 열립니다.
+</div>
+  </main>
+  <script>
+    /*
+     * Android 접근성 설정
+     *
+     * 공식 Android Settings Action:
+     * android.settings.ACCESSIBILITY_SETTINGS
+     */
+    function openAccessibility() {
+      showStatus("접근성 설정을 여는 중...");
+      const intent =
+        "intent:#Intent;" +
+        "action=android.settings.ACCESSIBILITY_SETTINGS;" +
+        "end";
+      window.location.href = intent;
+    }
+    /*
+     * Android 전체 설정
+     */
+    function openSettings() {
+      showStatus("Android 설정을 여는 중...");
+      const intent =
+        "intent:#Intent;" +
+        "action=android.settings.SETTINGS;" +
+        "end";
+      window.location.href = intent;
+    }
+    /*
+     * 설치된 앱 목록 설정
+     */
+    function openApps() {
+      showStatus("앱 설정을 여는 중...");
+      const intent =
+        "intent:#Intent;" +
+        "action=android.settings.APPLICATION_SETTINGS;" +
+        "end";
+      window.location.href = intent;
+    }
+    function showStatus(message) {
+      document.getElementById("status").textContent = message;
+    }
+    /*
+     * TV 리모컨/키보드로 페이지에 들어왔을 때
+     * 첫 번째 버튼을 자동으로 선택
+     */
+    window.addEventListener("load", function () {
+      document
+        .getElementById("accessibilityButton")
+        .focus();
+    });
+    /*
+     * Android TV에서 방향키로 버튼을 이동할 때
+     * 일반적인 브라우저 포커스 동작을 사용
+     */
+    document.addEventListener("keydown", function (event) {
+      const buttons =
+        Array.from(document.querySelectorAll("button"));
+      const current =
+        document.activeElement;
+      const index =
+        buttons.indexOf(current);
+      if (index === -1) return;
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        const next =
+          buttons[index + 1] || buttons[0];
+        next.focus();
+      }
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        const previous =
+          buttons[index - 1] ||
+          buttons[buttons.length - 1];
+        previous.focus();
+      }
+    });
+  </script>
 </body>
 </html>
