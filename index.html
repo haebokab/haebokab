@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기가지니 A 설정 우회 V4</title>
+    <title>기가지니 A 우회 게이트 V5</title>
     <style>
         body { font-family: sans-serif; background-color: #121212; color: #fff; padding: 15px; text-align: center; }
         h1 { color: #00e676; font-size: 20px; margin-bottom: 5px; }
@@ -14,38 +14,25 @@
     </style>
 </head>
 <body>
-    <h1>기가지니 A 우회 게이트 V4</h1>
-    <p>브라우저 우회 프로토콜 및 마켓 딥링크 방식</p>
+    <h1>기가지니 A 우회 게이트 V5</h1>
+    <p>스토어 메인 및 검색창 호출 우회 루트</p>
 
-    <!-- 1. Play 스토어 딥링크를 이용한 설정 패키지 호출 -->
-    <a class="btn" href="market://details?id=com.android.tv.settings">
-        1. TV 설정 (Market 프로토콜)
-        <div class="sub">market://details?id=com.android.tv.settings</div>
+    <!-- 1. Play 스토어 검색창 호출 (가장 안전한 경로) -->
+    <a class="btn" href="market://search?q=button+mapper">
+        1. 스토어 검색 화면 열기
+        <div class="sub">market://search?q=button+mapper</div>
     </a>
 
-    <!-- 2. Button Mapper 패키지 직접 호출 -->
-    <a class="btn" href="market://details?id=flar2.homebutton">
-        2. Button Mapper 앱 페이지 연동
-        <div class="sub">market://details?id=flar2.homebutton</div>
+    <!-- 2. Play 스토어 카테고리 메인 진입 -->
+    <a class="btn" href="market://search?q=settings">
+        2. 설정 관련 앱 검색 열기
+        <div class="sub">market://search?q=settings</div>
     </a>
 
-    <!-- 3. 안드로이드 시스템 세팅 패키지 딥링크 -->
-    <a class="btn" href="android-app://com.android.tv.settings">
-        3. TV 설정 (android-app 프로토콜)
-        <div class="sub">android-app://com.android.tv.settings</div>
+    <!-- 3. 안드로이드 시스템 설정 패키지 검색 (오류 방지형) -->
+    <a class="btn" href="market://search?q=pname:com.android.tv.settings">
+        3. TV 설정 패키지 검색
+        <div class="sub">market://search?q=pname:com.android.tv.settings</div>
     </a>
-
-    <!-- 4. JS 컴포넌트 강제 리다이렉트 테스트 -->
-    <button class="btn" onclick="openMarket()">
-        4. Play 스토어 메인 열기 (JS)
-        <div class="sub">Play 스토어 앱 강제 실행</div>
-    </button>
-
-    <script>
-        function openMarket() {
-            // market 스킴을 자바스크립트로 강제 주입
-            window.location.href = "market://search?q=button+mapper";
-        }
-    </script>
 </body>
 </html>
