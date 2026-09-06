@@ -3,43 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기가지니 A 우회 게이트 V6</title>
+    <title>기가지니 A 설정 게이트 (수정판)</title>
     <style>
-        body { font-family: sans-serif; background-color: #121212; color: #fff; padding: 20px; text-align: center; }
-        h1 { color: #00e676; font-size: 20px; }
-        .btn { display: block; width: 85%; max-width: 350px; margin: 12px auto; padding: 15px; background: #222; color: #00e676; border: 2px solid #00e676; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        body { font-family: sans-serif; background-color: #121212; color: #ffffff; padding: 20px; text-align: center; }
+        h1 { color: #00e676; font-size: 20px; margin-bottom: 20px; }
+        .btn { display: block; width: 85%; max-width: 380px; margin: 12px auto; padding: 15px; background-color: #1f1f1f; color: #00e676; text-decoration: none; border: 2px solid #00e676; border-radius: 8px; font-size: 16px; font-weight: bold; }
+        .btn:active { background-color: #00e676; color: #000000; }
+        .sub { font-size: 11px; color: #aaa; margin-top: 4px; font-weight: normal; }
     </style>
 </head>
 <body>
-    <h1>기가지니 A 우회 게이트 V6</h1>
-    <p>브라우저 샌드박스 우회 (멀티 프로토콜 파이프라인)</p>
+    <h1>기가지니 A 설정 진입 (첫번째 방식)</h1>
+    <p>위에서부터 하나씩 클릭하여 설정창이 열리는지 확인하십시오.</p>
 
-    <!-- 1. Iframe 주입 방식 (브라우저 주소창 파싱 회피) -->
-    <button class="btn" onclick="triggerIframe()">1. Iframe 다이렉트 인텐트</button>
-
-    <!-- 2. Form POST/GET 액션 방식 -->
-    <form id="intentForm" action="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end" method="GET">
-        <button type="submit" class="btn">2. Form Submit 우회</button>
-    </form>
-
-    <!-- 3. Chrome Custom Tab 스킴 -->
-    <a class="btn" href="googlechrome://navigate?url=intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end">
-        3. Chrome Protocol 우회
+    <!-- 1. 접근성 설정 (표준 액션 호출 - 가장 유력) -->
+    <a class="btn" href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;category=android.intent.category.DEFAULT;end">
+        1. 접근성 설정 열기 (표준 액션)
+        <div class="sub">Button Mapper 권한 허용 최우선 경로</div>
     </a>
 
-    <script>
-        function triggerIframe() {
-            // 브라우저 파서를 타지 않도록 비동기 iframe을 주입하여 OS로 직접 호출
-            var iframe = document.createElement("iframe");
-            iframe.style.display = "none";
-            iframe.src = "intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end";
-            document.body.appendChild(iframe);
-            
-            setTimeout(function() {
-                // 서브 스킴 실패 시 fallback
-                window.location.href = "intent://com.android.tv.settings/#Intent;scheme=android-app;package=com.android.tv.settings;end";
-            }, 500);
-        }
-    </script>
+    <!-- 2. 접근성 설정 (패키지 명시 방식) -->
+    <a class="btn" href="intent://com.android.tv.settings/.accessibility.AccessibilitySettingsActivity#Intent;scheme=android-app;package=com.android.tv.settings;end">
+        2. 접근성 설정 열기 (TV 패키지 명시)
+        <div class="sub">com.android.tv.settings 접근성 Activity</div>
+    </a>
+
+    <!-- 3. 시스템 전체 설정 (표준 액션) -->
+    <a class="btn" href="intent:#Intent;action=android.settings.SETTINGS;category=android.intent.category.DEFAULT;end">
+        3. 전체 시스템 설정 열기
+        <div class="sub">안드로이드 순정 메인 설정</div>
+    </a>
+
+    <!-- 4. 일반 안드로이드 설정 패키지 호출 (모바일용 패키지 호환) -->
+    <a class="btn" href="intent://com.android.settings/.Settings#Intent;scheme=android-app;package=com.android.settings;end">
+        4. 메인 설정 (com.android.settings)
+        <div class="sub">TV 설정 대신 일반 설정 패키지 직접 호출</div>
+    </a>
 </body>
 </html>
