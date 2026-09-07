@@ -2,8 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Android TV 설정 테스트</title>
   <style>
     * {
@@ -11,11 +10,12 @@
     }
     html, body {
       margin: 0;
+      padding: 0;
       width: 100%;
       min-height: 100%;
       background: #101114;
-      color: white;
-      font-family: Arial, sans-serif;
+      color: #ffffff;
+      font-family: Arial, "Noto Sans KR", sans-serif;
     }
     body {
       min-height: 100vh;
@@ -25,172 +25,240 @@
     }
     .container {
       width: 90%;
-      max-width: 800px;
+      max-width: 850px;
+      padding: 40px 0;
       text-align: center;
     }
     h1 {
       font-size: 42px;
-      margin-bottom: 12px;
+      margin: 0 0 12px;
     }
-    .description {
-      font-size: 21px;
-      color: #bbbbbb;
+    .subtitle {
+      color: #aaaaaa;
+      font-size: 20px;
       margin-bottom: 35px;
+      line-height: 1.5;
     }
     .buttons {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
     }
-    button {
+    /*
+     * <a>를 버튼처럼 사용한다.
+     *
+     * Android/Chromium의 intent:// URI를
+     * 실제 링크 클릭으로 실행하기 위한 구성.
+     */
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
-      min-height: 90px;
+      min-height: 88px;
       padding: 20px;
-      border: 0;
       border-radius: 18px;
       background: #1976d2;
-      color: white;
-      font-size: 27px;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 25px;
       font-weight: bold;
       cursor: pointer;
+      transition: transform 0.1s, background 0.1s;
     }
-    button:focus {
-      outline: 5px solid white;
-      outline-offset: 5px;
+    .button:hover,
+    .button:focus {
       background: #2196f3;
+      outline: 5px solid #ffffff;
+      outline-offset: 4px;
+      transform: scale(1.01);
     }
-    button:hover {
-      background: #2196f3;
+    .button.secondary {
+      background: #3f444b;
     }
-    .secondary {
-      background: #42464d;
+    .button.secondary:hover,
+    .button.secondary:focus {
+      background: #555b63;
     }
-    .secondary:focus,
-    .secondary:hover {
-      background: #5a6068;
+    .button.test {
+      background: #5b3f91;
     }
-    #status {
-      margin-top: 30px;
-      min-height: 30px;
-      font-size: 19px;
-      color: #aaaaaa;
+    .button.test:hover,
+    .button.test:focus {
+      background: #7351b3;
+    }
+    .number {
+      margin-right: 12px;
+      opacity: 0.8;
     }
     .info {
       margin-top: 35px;
-      padding: 20px;
-      border-radius: 15px;
+      padding: 22px;
       background: #1b1d21;
+      border-radius: 16px;
       color: #999999;
       font-size: 17px;
-      line-height: 1.6;
+      line-height: 1.7;
+      text-align: left;
+    }
+    .info strong {
+      color: #dddddd;
+    }
+    .status {
+      margin-top: 25px;
+      min-height: 25px;
+      color: #888888;
+      font-size: 17px;
+    }
+    code {
+      color: #cccccc;
+      word-break: break-all;
     }
   </style>
 </head>
 <body>
   <main class="container">
-<h1>Android TV 설정</h1>
-<div class="description">
-  TV Bro에서 버튼을 눌러 설정 화면을 테스트합니다.
+<h1>Android TV 설정 테스트</h1>
+<div class="subtitle">
+  KSTB6188 / Android TV 환경<br>
+  TV Bro Intent 테스트
 </div>
 <div class="buttons">
-  <!-- 1. 접근성 설정 -->
-  <button
-    id="accessibilityButton"
-    onclick="openAccessibility()">
-    ♿ 접근성 설정 열기
-  </button>
-  <!-- 2. Android 전체 설정 -->
-  <button
-    class="secondary"
-    onclick="openSettings()">
-    ⚙️ Android 설정 열기
-  </button>
-  <!-- 3. 앱 설정 -->
-  <button
-    class="secondary"
-    onclick="openApps()">
-    📱 앱 설정 열기
-  </button>
+  <!-- ==================================================
+       1. Component 직접 지정
+       ================================================== -->
+  <a
+    class="button"
+    href="intent://open/#Intent;component=com.android.tv.settings/com.android.tv.settings.oemlink.AccessibilitySettingsActivity;end"
+  >
+    <span class="number">①</span>
+    접근성 설정 — Component
+  </a>
+  <!-- ==================================================
+       2. Android TV OEM Accessibility Action
+       ================================================== -->
+  <a
+    class="button"
+    href="intent:#Intent;action=android.settings.ACCESSIBILITY_TV_OEM_LINK;end"
+  >
+    <span class="number">②</span>
+    접근성 설정 — TV OEM Action
+  </a>
+  <!-- ==================================================
+       3. 일반 Android Accessibility Settings
+       ================================================== -->
+  <a
+    class="button"
+    href="intent:#Intent;action=android.settings.ACCESSIBILITY_SETTINGS;end"
+  >
+    <span class="number">③</span>
+    접근성 설정 — 일반 Action
+  </a>
+  <!-- ==================================================
+       4. Android TV Settings 전체
+       ================================================== -->
+  <a
+    class="button secondary"
+    href="intent:#Intent;action=android.settings.SETTINGS;end"
+  >
+    <span class="number">④</span>
+    Android 설정 전체
+  </a>
+  <!-- ==================================================
+       5. Application Settings
+       ================================================== -->
+  <a
+    class="button secondary"
+    href="intent:#Intent;action=android.settings.APPLICATION_SETTINGS;end"
+  >
+    <span class="number">⑤</span>
+    앱 설정
+  </a>
+  <!-- ==================================================
+       6. Component 테스트용
+       ================================================== -->
+  <a
+    class="button test"
+    href="intent://open/#Intent;component=com.android.tv.settings/com.android.tv.settings.device.StorageResetActivity;end"
+  >
+    <span class="number">⑥</span>
+    저장소 — Component 테스트
+  </a>
 </div>
-<div id="status"></div>
+<div class="status">
+  버튼을 선택하면 해당 Android 설정 화면을 실행합니다.
+</div>
 <div class="info">
-  첫 번째 버튼이 정상적으로 작동하면
-  Android TV의 접근성 설정 화면이 열립니다.
+  <strong>테스트 방법</strong><br><br>
+  ①부터 순서대로 눌러보세요.<br>
+  하나라도 설정 화면이 열린다면 해당 방식이
+  현재 TV Bro / 지니TV 환경에서 동작하는 것입니다.
+  <br><br>
+  <strong>① Component</strong><br>
+  <code>
+    com.android.tv.settings/<br>
+    com.android.tv.settings.oemlink.AccessibilitySettingsActivity
+  </code>
+  <br><br>
+  <strong>② Android TV OEM Action</strong><br>
+  <code>
+    android.settings.ACCESSIBILITY_TV_OEM_LINK
+  </code>
+  <br><br>
+  <strong>③ 일반 Android Action</strong><br>
+  <code>
+    android.settings.ACCESSIBILITY_SETTINGS
+  </code>
+  <br><br>
+  <strong>주의</strong><br>
+  TV Bro가 Android Intent URI를 차단하거나
+  대상 Activity를 브라우저에서 실행할 수 없는 경우
+  "Can't find suitable application" 오류가 나타날 수 있습니다.
 </div>
   </main>
   <script>
     /*
-     * Android 접근성 설정
+     * TV 리모컨 / 키보드 사용을 위한 포커스 처리
      *
-     * 공식 Android Settings Action:
-     * android.settings.ACCESSIBILITY_SETTINGS
-     */
-    function openAccessibility() {
-      showStatus("접근성 설정을 여는 중...");
-      const intent =
-        "intent:#Intent;" +
-        "action=android.settings.ACCESSIBILITY_SETTINGS;" +
-        "end";
-      window.location.href = intent;
-    }
-    /*
-     * Android 전체 설정
-     */
-    function openSettings() {
-      showStatus("Android 설정을 여는 중...");
-      const intent =
-        "intent:#Intent;" +
-        "action=android.settings.SETTINGS;" +
-        "end";
-      window.location.href = intent;
-    }
-    /*
-     * 설치된 앱 목록 설정
-     */
-    function openApps() {
-      showStatus("앱 설정을 여는 중...");
-      const intent =
-        "intent:#Intent;" +
-        "action=android.settings.APPLICATION_SETTINGS;" +
-        "end";
-      window.location.href = intent;
-    }
-    function showStatus(message) {
-      document.getElementById("status").textContent = message;
-    }
-    /*
-     * TV 리모컨/키보드로 페이지에 들어왔을 때
-     * 첫 번째 버튼을 자동으로 선택
+     * 페이지를 열면 첫 번째 버튼을 자동으로 선택한다.
      */
     window.addEventListener("load", function () {
-      document
-        .getElementById("accessibilityButton")
-        .focus();
+      const firstButton =
+        document.querySelector(".button");
+      if (firstButton) {
+        firstButton.focus();
+      }
     });
     /*
-     * Android TV에서 방향키로 버튼을 이동할 때
-     * 일반적인 브라우저 포커스 동작을 사용
+     * Android TV 리모컨의 위/아래 방향키 처리
+     *
+     * TV Bro에서 기본 포커스 이동이 제대로 되지 않는 경우를
+     * 대비한다.
      */
     document.addEventListener("keydown", function (event) {
       const buttons =
-        Array.from(document.querySelectorAll("button"));
+        Array.from(document.querySelectorAll(".button"));
       const current =
         document.activeElement;
-      const index =
+      const currentIndex =
         buttons.indexOf(current);
-      if (index === -1) return;
+      if (currentIndex === -1) {
+        return;
+      }
+      // 아래 방향키
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        const next =
-          buttons[index + 1] || buttons[0];
-        next.focus();
+        const nextIndex =
+          (currentIndex + 1) % buttons.length;
+        buttons[nextIndex].focus();
       }
+      // 위 방향키
       if (event.key === "ArrowUp") {
         event.preventDefault();
-        const previous =
-          buttons[index - 1] ||
-          buttons[buttons.length - 1];
-        previous.focus();
+        const previousIndex =
+          (currentIndex - 1 + buttons.length)
+          % buttons.length;
+        buttons[previousIndex].focus();
       }
     });
   </script>
